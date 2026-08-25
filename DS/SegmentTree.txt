@@ -1,0 +1,70 @@
+struct node{
+    int sum;
+    node(){
+        sum =0;
+    }
+    void change(int val){
+        sum += val;
+    }
+};
+struct segtree{
+    int sz ;
+    vector<node> sg;
+    segtree(int n){
+        sz = 1;
+        while(sz < n )sz*=2;
+        sg.assign(2 * sz,node());
+    }
+    node merge(node &l , node&r){
+        node ans= node();
+        ans.sum = l.sum + r.sum;
+        return ans;
+    }
+    void init(vector<int> &arr,int l,int r ,int n){
+        if(r - l == 1){
+            if(l < arr.size()){
+                sg[n].change(arr[l]);
+            }
+            return ;
+        }
+        int mid = (l+r)/2;
+        init(arr , l , mid , 2* n + 1);
+        init(arr, mid ,r, 2 * n + 2);
+        sg[n] = merge(sg[2*n+1], sg[2*n+2]);
+    }
+    void set(int idx ,int val, int l,int r,int n){
+        if(r - l == 1){
+            sg[n].change(val);
+            return ;
+        }
+        int mid = (l + r )/2;
+        if(idx < mid){
+            set ( idx  ,val, l , mid , 2 * n + 1);
+        }
+        else{
+            set ( idx , val,mid , r , 2 * n + 2);
+        }
+        sg[n] = merge(sg[2*n+1],sg[2*n+2]);
+    }
+   void set(int idx,int val){
+    set(idx,val, 0, sz, 0);
+    }
+    void init(vector<int> &arr){
+        init(arr,0,sz,0);
+    }
+    node get(int l,int r,int curl ,int curr ,int n){
+        if(curl >= r || curr<=l){
+            return node();
+        }
+        if(curl >= l && curr<= r){
+            return sg[n];
+        }
+        int mid = (curl + curr)/2;
+        node lf= get(l,r,curl,mid, 2 * n + 1);
+        node ri = get(l,r,mid,curr, 2 * n + 2);
+        return merge(lf,ri);
+    }
+    int get(int l,int r){
+        return get(l,r,0,sz,0).sum;
+    }
+};
