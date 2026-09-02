@@ -1,3 +1,17 @@
+#include<bits/stdc++.h>
+#include<ext/pb_ds/assoc_container.hpp>
+#include<ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+using namespace std;
+template<class T> using ordered_set = tree<T, null_type, std::less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>;
+#define ll long long
+#define all(x) x.begin(), x.end()
+#define rall(x) x.rbegin(), x.rend()
+#define fix(x, m) (((x) % (m) + (m)) % (m))
+void Fast(){    ios::sync_with_stdio(false);  cin.tie(0);cout.tie(0);}
+const int MOD = 1e9+7;
+const int N=1e6+5;
+const int dx[8] = {1, 0, -1, 0, 1, 1, -1, -1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
 struct node{
     int sum;
     node(){
@@ -68,3 +82,10 @@ struct segtree{
         return get(l,r,0,sz,0).sum;
     }
 };
+
+int main() {
+    Fast();
+    
+    
+    return 0;
+    }
